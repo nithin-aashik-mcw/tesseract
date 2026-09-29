@@ -16,7 +16,7 @@
 // limitations under the License.
 ///////////////////////////////////////////////////////////////////////
 
-#if defined(__ARM_NEON)
+#if defined(__ARM_NEON) || defined(_M_ARM64)
 
 #  include "intsimdmatrix.h"
 #  include "tesstypes.h"
@@ -202,4 +202,4 @@ const IntSimdMatrix IntSimdMatrix::intSimdMatrixNEON = {
 
 } // namespace tesseract.
 
-#endif /* __ARM_NEON */
+#endif /* __ARM_NEON || _M_ARM64 */
