@@ -123,10 +123,14 @@ if [ "$ARCH" = "aarch64" ]; then
   # otherwise libc++ fails to find its own wrappers for the C headers.
   PKG_CONFIG_SYSTEM_INCLUDE_PATH=$MINGW/include
   export PKG_CONFIG_SYSTEM_INCLUDE_PATH
+  # libtool links DLLs with -nostdlib and only adds back -l libraries,
+  # so it drops the compiler-rt builtins which provide __chkstk on ARM64.
+  # Pass them directly to the linker.
+  CLANG_RT=$("$HOST-clang" -print-libgcc-file-name)
   ../../../configure --disable-openmp --host="$HOST" --prefix="/usr/$HOST" \
     CC="$HOST-clang" CXX="$HOST-clang++" \
     CXXFLAGS="-fno-math-errno -Wall -Wextra -Wpedantic -g -O2 -idirafter $MINGW/include" \
-    LDFLAGS="-L$MINGW/lib"
+    LDFLAGS="-L$MINGW/lib -Wl,$CLANG_RT"
 else
   ../../../configure --disable-openmp --host="$HOST" --prefix="/usr/$HOST" \
     CXX="$HOST-g++-posix" \
