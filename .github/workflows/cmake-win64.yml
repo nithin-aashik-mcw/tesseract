@@ -15,7 +15,6 @@ on:
   workflow_dispatch:
 
 env:
-  ILOC: d:/a/local
   png_ver: 1651
 
 jobs:
@@ -29,9 +28,14 @@ jobs:
           - name: win64
             os: windows-latest
             icu: release-78.3/icu4c-78.3-Win64-MSVC2022.zip
+            iloc: d:/a/local
           - name: winarm64
             os: windows-11-arm
             icu: release-79.1rc/icu4c-79.1rc-WinARM64-MSVC2026.zip
+            # The ARM64 runner has no D: drive.
+            iloc: c:/a/local
+    env:
+      ILOC: ${{ matrix.config.iloc }}
     steps:
       - uses: microsoft/setup-msbuild@v3
       - name: "Checkout ${{ github.ref }} ( ${{ github.sha }} )"
