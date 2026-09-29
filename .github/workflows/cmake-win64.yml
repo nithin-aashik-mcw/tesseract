@@ -1,5 +1,5 @@
 # Build Tesseract on Windows using cmake.
-name: cmake-win64
+name: cmake-win
 on:
   push:
     paths:
