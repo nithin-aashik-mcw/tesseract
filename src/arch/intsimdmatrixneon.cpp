@@ -57,9 +57,9 @@ static inline void PartialMatrixDotVector8(const int8_t *__restrict wi,
                                            const int8_t *__restrict u, int num_in,
                                            TFloat *__restrict v, int num_out) {
   // Initialize all the results to 0.
-  int32x4_t result0123 = {0, 0, 0, 0};
-  int32x4_t result4567 = {0, 0, 0, 0};
-  int8x8_t bias_scale = {127, 127, 127, 127, 127, 127, 127, 127};
+  int32x4_t result0123 = vdupq_n_s32(0);
+  int32x4_t result4567 = vdupq_n_s32(0);
+  int8x8_t bias_scale = vdup_n_s8(127);
   // Iterate over the input (u), one registerful at a time.
   for (int j = 0; j < num_in; j += 8) {
     int8x8_t vu = vld1_s8(u);              // vu     = u0  u1  u2  u3  u4  u5  u6  u7
